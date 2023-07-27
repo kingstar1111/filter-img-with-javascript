@@ -39,11 +39,8 @@ upload.onchange = function() {
     const file = upload.files[0];
 
     if (!file) {
-        // Handle the case when no file is selected
         return;
     }
-
-    // Check if the selected file is an image (you can customize the allowed types)
     const allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
     if (!allowedTypes.includes(file.type)) {
         alert("Please select a valid image file (JPEG, PNG, or GIF).");
