@@ -29,7 +29,7 @@ body{
     align-items: center;
 }
 
-.img img{
+.img img , canvas{
     max-height:60vh ;
     max-width: 45vw;
 }
