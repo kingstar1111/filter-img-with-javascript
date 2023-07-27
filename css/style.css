@@ -72,6 +72,9 @@ body{
     background-color: #030;
     cursor: pointer;
 }
+a{
+    text-decoration: none;
+}
 @media  screen and (max-width:780px) {
     .continar{
         grid-template-columns: 1fr;

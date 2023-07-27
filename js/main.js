@@ -31,23 +31,48 @@ window.onload=function(){
     download.style.display= 'none';
     imgBox.style.display= 'none';
 }
-upload.onchange=function(){
-    reset.style.display= 'block';
-    download.style.display= 'block';
-    imgBox.style.display= 'block';
-    let file= new FileReader();
-    file.readAsDataURL(upload.files[0]);
-    file.onload= function(){
-        img.src=file.result;
-    }  
-    img.onload= function(){
-        canvas.width = img.width;
-        canvas.height = img.height;
-        ctx.drawImage(img, 0, 0 ,canvas.width ,canvas.height );
-        img.style.display='none';
-        resetValue ()
+upload.onchange = function() {
+    reset.style.display = 'block';
+    download.style.display = 'block';
+    imgBox.style.display = 'block';
+
+    const file = upload.files[0];
+
+    if (!file) {
+        // Handle the case when no file is selected
+        return;
     }
-}
+
+    // Check if the selected file is an image (you can customize the allowed types)
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/gif'];
+    if (!allowedTypes.includes(file.type)) {
+        alert("Please select a valid image file (JPEG, PNG, or GIF).");
+        return;
+    }
+
+    const reader = new FileReader();
+
+    reader.onload = function() {
+        const imgTemp = new Image();
+
+        imgTemp.onload = function() {
+            canvas.width = imgTemp.width;
+            canvas.height = imgTemp.height;
+            ctx.drawImage(imgTemp, 0, 0, canvas.width, canvas.height);
+            img.style.display = 'none';
+            resetValue();
+        };
+
+        imgTemp.src = reader.result;
+        img.src = reader.result;
+    };
+
+    reader.onerror = function() {
+        alert("Error occurred while reading the file.");
+    };
+
+    reader.readAsDataURL(file);
+};
 
 let filters = document.querySelectorAll("ul li input");
 filters.forEach(filter => {
@@ -68,6 +93,6 @@ filters.forEach(filter => {
 
 
 download.onclick= function(){
-    download.href = canvas.toDataURL('image/jpeg');
+    download.href = canvas.toDataURL('image/jpeg',1.0);
 
 }
